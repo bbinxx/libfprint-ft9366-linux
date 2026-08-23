@@ -1,0 +1,23 @@
+# Build artifacts and local package work
+/build/
+/src/
+/pkg/
+*.o
+*.a
+*.so
+*.so.*
+*.pkg.tar.*
+# Private captures and biometric material must stay outside this repository
+/private/
+/captures/
+*.pcap
+*.pcapng
+*.usbmon
+*.raw
+*.template
+core
+core.*
+# Local tool state
+.agents/
+.codex/
+.aws/

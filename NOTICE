@@ -1,0 +1,11 @@
+Independent FT9366 development project. No affiliation with FocalTech, Realtek,
+ASUS, libfprint maintainers or the reference author is claimed.
+
+Technical reference: https://github.com/ilyamiro/ft9366-fingerprint
+Revision: 5420cd9b7124e5a70deaae4bffedd969ae4ef91c
+Git author: ilyamiro. Reference license: LGPL-2.1-or-later.
+Protocol assumptions: 64x80 frames of big-endian 16-bit samples.
+No reference implementation files or Git history are imported.
+
+libfprint source and Arch recipe revisions appear in docs/phase-1-report.md.
+This notice is attribution, not a project-wide license grant.
