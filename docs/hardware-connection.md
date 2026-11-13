@@ -77,3 +77,11 @@ Actual agent-side attempt: sudo -n refused because a password is required. No
 physical endpoint read occurred in that attempt. The successful/timeout/overflow
 outputs in test-connect are simulated fixtures, not hardware observations.
 The owner must supply the terminal result before any received-data claim is made.
+
+## Owner-reported IN-only read result
+
+The owner ran sudo /tmp/ft9366-connect --read and reported LIBUSB_ERROR_TIMEOUT,
+0 received bytes, then successful release and close. This establishes a bounded
+read attempt on the real endpoint, not image acquisition or a hardware fault.
+See [reference capture proposal](reference-capture-experiment.md) for the next,
+separately approved experiment involving reset and OUT commands.

@@ -49,3 +49,9 @@ requiring pkg-config and libusb headers/libraries. It checks one bounded IN-only
 read, success/timeout/overflow cleanup, permission failure, refusal to detach a
 kernel driver and unchanged connection-only/inspection modes. Its printed USB
 results are simulation, not actual hardware evidence.
+
+Reference capture parser tests run in make test. Full reference-sequence simulation
+is optional via make reference-capture-test REFERENCE_SOURCE=/path/to/pinned/checkout.
+It builds a separate .sim executable and checks success, short response, disconnect
+and no-finger cleanup paths. GCC and Clang ASan/UBSan simulations passed; this
+does not constitute a physical fingerprint capture. Leak checking remains excluded.

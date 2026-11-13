@@ -33,3 +33,17 @@ connection-probe-test:
 	"$(BUILD_DIR)/test-connect"
 
 test: connection-probe-test
+
+.PHONY: replay-test reference-capture-probe reference-capture-test
+replay-test:
+	mkdir -p "$(BUILD_DIR)"
+	$(CC) $(CFLAGS) -Itools tests/test-replay.c tools/ft9366-replay.c -o "$(BUILD_DIR)/test-replay"
+	"$(BUILD_DIR)/test-replay"
+
+test: replay-test
+
+reference-capture-probe:
+	python3 scripts/build_reference_capture.py --reference-source "$(REFERENCE_SOURCE)" --cc "$(CC)" --cflags "$(CFLAGS)"
+
+reference-capture-test:
+	python3 scripts/build_reference_capture.py --reference-source "$(REFERENCE_SOURCE)" --cc "$(CC)" --cflags "$(CFLAGS)" --simulate
