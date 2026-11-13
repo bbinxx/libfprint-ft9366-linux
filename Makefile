@@ -24,3 +24,12 @@ endif
 connection-probe:
 	mkdir -p "$(BUILD_DIR)"
 	$(CC) $(CFLAGS) $$(pkg-config --cflags libusb-1.0) tools/ft9366-connect.c $$(pkg-config --libs libusb-1.0) -o "$(BUILD_DIR)/ft9366-connect"
+
+.PHONY: connection-probe-test
+connection-probe-test:
+	mkdir -p "$(BUILD_DIR)"
+	$(CC) $(CFLAGS) $$(pkg-config --cflags libusb-1.0) -Dmain=ft9366_probe_main -c tools/ft9366-connect.c -o "$(BUILD_DIR)/probe-test.o"
+	$(CC) $(CFLAGS) $$(pkg-config --cflags libusb-1.0) tests/test-connect.c "$(BUILD_DIR)/probe-test.o" $$(pkg-config --libs libusb-1.0) -o "$(BUILD_DIR)/test-connect"
+	"$(BUILD_DIR)/test-connect"
+
+test: connection-probe-test
