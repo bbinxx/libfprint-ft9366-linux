@@ -2,7 +2,7 @@
 
 Experimental project targeting USB `2808:a658`. Original Track B code currently
 provides a frame decoder, capture receive state machine, and backend-neutral
-asynchronous USB transport core tested offline. USB initialization, libfprint integration,
+asynchronous USB transport core with a libfprint USB adapter tested offline. USB initialization, libfprint integration,
 enrollment and verification are not implemented or validated here.
 
 Track A means independently maintained packaging of pinned upstream driver code.
@@ -16,7 +16,7 @@ installation occurs. Requirements: a C11 compiler and make.
 
 - [Phase 1 evidence](docs/phase-1-report.md)
 - [Architecture](docs/architecture.md), [hardware](docs/hardware.md), [protocol](docs/usb-protocol.md)
-- [Transport contract](docs/transport.md)
+- [Transport contract](docs/transport.md), [libfprint adapter](docs/libfprint-usb-adapter.md)
 - [Development](docs/development.md), [testing](docs/testing.md), [packaging](docs/packaging.md)
 - [Compatibility](docs/compatibility.md), [troubleshooting](docs/troubleshooting.md)
 - [Windows analysis](docs/windows-driver-analysis.md)

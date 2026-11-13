@@ -33,3 +33,8 @@ forwarding, write ownership, read bounds, short/oversized completions, submissio
 failure, cancellation races, stale callbacks and token exhaustion. The full suite
 is three C test executables plus four Python unittest cases. No real USB transport,
 libfprint adapter or hardware timeout behavior has yet been tested.
+
+Run `make test LIBFPRINT_SOURCE=/tmp/ft9366-libfprint-source` to include the fourth
+C executable for the libfprint adapter. See [adapter verification](libfprint-usb-adapter.md)
+for pinned-source checks and the distinction between header/simulation tests and
+a full libfprint build. Plain `make test` continues to run the portable core suite.

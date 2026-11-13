@@ -21,7 +21,8 @@ scope separate; never mark a hardware milestone done from an offline test.
 | Branch | Deliverable / completion gate |
 | --- | --- |
 | feature/usb-initialization-research | Source sequence audit; exact response semantics and local traces remain open |
-| feature/usb-transport | Offline transfer core tested; concrete libfprint adapter and hardware transfer validation pending |
+| feature/usb-transport | Offline transfer core tested; hardware validation pending |
+| feature/libfprint-usb-adapter | Concrete FpiUsbTransfer adapter compiled against real headers and simulated; full library build pending |
 | feature/device-lifecycle | Open/claim/close cleanup; reviewed initialization and recovery |
 | feature/image-acquisition | Connect capture state and decoder to verified frame responses |
 | feature/libfprint-integration | Build and register original adapter inside pinned libfprint |
