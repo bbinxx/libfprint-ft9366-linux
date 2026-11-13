@@ -11,7 +11,7 @@ Track B means an original implementation informed by documented evidence. These
 tracks must remain clearly attributed. No upstream Git history is imported.
 
 Run synthetic tests with `make test`. Builds default to `/tmp`; no USB access or
-installation occurs. Requirements: a C11 compiler and make.
+installation occurs. Requirements: a C11 compiler, make, Python 3, pkg-config and libusb development files.
 
 ## Guides
 

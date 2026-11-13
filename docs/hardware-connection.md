@@ -5,7 +5,7 @@ checks interface 0/alternate 0 with bulk endpoints 0x01 and 0x82 (512-byte packe
 and defaults to descriptor inspection. --connect opens the device, checks for a
 kernel driver, claims interface 0, releases it, and closes the handle.
 It refuses to detach a kernel driver and never requests a USB reset or sends
-bulk/interrupt/vendor protocol commands. Standard USB enumeration/access may wake
+OUT/vendor protocol commands. --connect does not perform endpoint transfers. Standard USB enumeration/access may wake
 the device; no persistent power or permission settings are modified.
 
 ## Build and run
@@ -50,4 +50,30 @@ USB handle closed
 Success for this milestone is explicit open, claim, release and close output with
 exit status 0. It establishes USB access only, not sensor initialization, capture,
 enrollment or matching. This standalone libusb probe does not validate the separate
-libfprint adapter or device class. No image or template data is read or stored.
+libfprint adapter or device class. The connection-only mode reads no image or template payload.
+
+## Explicit single-read experiment
+
+Approved scope: the owner requested a hardware read. Run:
+
+```sh
+make connection-probe BUILD_DIR=/tmp
+sudo /tmp/ft9366-connect --read
+```
+
+This claims interface 0 and submits exactly one bulk IN request to 0x82, bounded
+at 512 bytes and 1000 ms. It sends no OUT command and performs no retry, reset,
+initialization or endpoint-halt clearing. The buffer is cleared with volatile
+stores before interface release; neither payload bytes nor their hashes are logged
+or saved. Any received bytes are opaque, not established status/image data.
+Even an IN-only experiment can consume queued device data.
+
+Success, timeout and overflow paths all release the interface and close the handle.
+A failed read returns exit status 1 after cleanup; descriptor/connect-only success
+still returns 0. A timeout alone does not establish a hardware fault: the sensor
+has not been initialized or requested to produce a response.
+
+Actual agent-side attempt: sudo -n refused because a password is required. No
+physical endpoint read occurred in that attempt. The successful/timeout/overflow
+outputs in test-connect are simulated fixtures, not hardware observations.
+The owner must supply the terminal result before any received-data claim is made.

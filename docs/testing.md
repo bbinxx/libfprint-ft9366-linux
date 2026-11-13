@@ -43,3 +43,9 @@ The same LIBFPRINT_SOURCE command now also runs test-device, making five C
 executables plus four Python cases. Lifecycle coverage includes interface
 ownership, claim/release errors, release retry, close/drain races, callback-time
 destruction and reference cleanup. No real FpDevice, claim or transfer is exercised.
+
+The portable suite now includes a libusb diagnostic test with simulated functions,
+requiring pkg-config and libusb headers/libraries. It checks one bounded IN-only
+read, success/timeout/overflow cleanup, permission failure, refusal to detach a
+kernel driver and unchanged connection-only/inspection modes. Its printed USB
+results are simulation, not actual hardware evidence.

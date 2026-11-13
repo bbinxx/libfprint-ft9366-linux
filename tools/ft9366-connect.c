@@ -1,4 +1,4 @@
-/* Original connection diagnostic: no reset, detach or endpoint transfer. */
+/* Original connection/read diagnostic: no reset, detach or sensor commands. */
 #include <libusb.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -41,15 +41,17 @@ static bool expected_interface(libusb_device *device)
 int main(int argc, char **argv)
 {
     (void)setvbuf(stdout, NULL, _IOLBF, 0);
-    bool connect = argc == 2 && strcmp(argv[1], "--connect") == 0;
+    bool read_once = argc == 2 && strcmp(argv[1], "--read") == 0;
+    bool connect = read_once || (argc == 2 && strcmp(argv[1], "--connect") == 0);
     if (argc == 2 && strcmp(argv[1], "--help") == 0) {
-        puts("Usage: ft9366-connect [--connect]\n"
+        puts("Usage: ft9366-connect [--connect|--read]\n"
              "Default: descriptor inspection only. --connect: open, claim/release interface 0, close.\n"
-             "Never resets, detaches a kernel driver or sends endpoint/vendor transfers.");
+             "--read: also attempt one 512-byte IN read with a 1000 ms timeout; payload is not logged.\n"
+             "Never resets, detaches a kernel driver or sends OUT/vendor commands.");
         return 0;
     }
     if (argc != 1 && !connect) {
-        fprintf(stderr, "Usage: ft9366-connect [--connect]\n");
+        fprintf(stderr, "Usage: ft9366-connect [--connect|--read]\n");
         return 2;
     }
     libusb_context *context = NULL;
@@ -110,13 +112,26 @@ int main(int argc, char **argv)
         goto cleanup;
     }
     puts("Interface 0 claimed successfully");
+    exit_status = 0;
+    if (read_once) {
+        unsigned char payload[512] = {0};
+        int actual = 0;
+        puts("Attempting one bulk IN 0x82 read: maximum 512 bytes, timeout 1000 ms");
+        result = libusb_bulk_transfer(handle, 0x82, payload, (int)sizeof payload, &actual, 1000);
+        printf("Read result: %s; received %d bytes (payload not logged)\n", libusb_error_name(result), actual);
+        volatile unsigned char *clear = payload;
+        for (size_t i = 0; i < sizeof payload; i++)
+            clear[i] = 0;
+        if (result != LIBUSB_SUCCESS)
+            exit_status = 1;
+    }
     result = libusb_release_interface(handle, 0);
     if (result != LIBUSB_SUCCESS) {
         fprintf(stderr, "Release interface 0: %s\n", libusb_error_name(result));
+        exit_status = 1;
         goto cleanup;
     }
     puts("Interface 0 released successfully");
-    exit_status = 0;
 cleanup:
     if (handle != NULL) {
         libusb_close(handle);

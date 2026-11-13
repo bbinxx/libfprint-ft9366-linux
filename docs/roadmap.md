@@ -29,6 +29,7 @@ scope separate; never mark a hardware milestone done from an offline test.
 | feature/enrollment-matching | Template format, enrollment flow and evaluated host matcher |
 | feature/arch-packaging | Reproducible build, ABI/lint checks and verified rollback |
 | feature/hardware-connection | Owner reports successful privileged open/claim/release/close; sensor commands not yet tested |
+| feature/hardware-read | One bounded IN-only read probe; terminal sudo run pending |
 | feature/hardware-validation | Approved discovery, enrollment, verification and failure tests |
 | chore/project-license | Owner-approved license and complete provenance audit before publication |
 | feature/pam-integration | Only after reliable hardware verification and explicit approval |
