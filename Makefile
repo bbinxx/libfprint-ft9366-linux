@@ -11,3 +11,11 @@ test:
 	$(CC) $(CFLAGS) -Idriver tests/test-transport.c driver/ft9366-transport.c -o "$(BUILD_DIR)/test-transport"
 	"$(BUILD_DIR)/test-transport"
 	PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -p 'test_*.py'
+
+.PHONY: adapter-test
+adapter-test:
+	python3 scripts/build_adapter_test.py --libfprint-source "$(LIBFPRINT_SOURCE)" --build-dir "$(BUILD_DIR)/adapter" --cc "$(CC)" --cflags "$(CFLAGS)"
+
+ifneq ($(strip $(LIBFPRINT_SOURCE)),)
+test: adapter-test
+endif

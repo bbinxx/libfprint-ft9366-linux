@@ -1,7 +1,7 @@
 # USB transport core
 
 Track B, original implementation. This is a backend-neutral asynchronous transfer
-core, not yet a libfprint USB adapter. Tests use a simulated backend only.
+core, with a separate [libfprint adapter](libfprint-usb-adapter.md). Tests use a simulated backend only.
 No real transfer has been submitted. Endpoints 0x01 OUT and 0x82 IN come from the
 observed descriptors; no command payload or initialization sequence is included.
 
@@ -21,7 +21,8 @@ immediate backend failure. No automatic retry is performed, especially after wri
 The backend borrows the buffer until exactly one completion callback. It must not
 invoke completion inline from submit, and must never access the buffer after
 completion. The backend enforces transfer deadlines; this core has no timer source.
-The actual libfprint adapter and its timeout/cancellation mapping remain pending.
+The separate adapter forwards timeout values and maps cancellation and errors;
+real USB behavior and a full libfprint build remain pending.
 
 Successful completion requires the requested byte count for both reads and writes.
 A short or oversized response fails closed with LENGTH_ERROR. Protocol semantics
@@ -57,7 +58,6 @@ propagation, cancellation races, stale callbacks, duplicate completions and toke
 exhaustion. GCC and Clang ASan/UBSan runs passed; leak detection was disabled due
 to the previously documented sandbox restriction.
 
-Before hardware use, implement and test a concrete adapter using libfprint's
-FpiUsbTransfer helpers. Review buffer ownership against that API, map cancellation
-and errors, then establish approved command sequences. The transport does not
+Before hardware use, build the adapter inside libfprint and test its lifecycle
+with actual device operations after approval. Establish approved command sequences. The transport does not
 identify response types or turn arbitrary bytes into image frames.

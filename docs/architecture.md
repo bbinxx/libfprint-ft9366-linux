@@ -36,3 +36,7 @@ Only one owner may mutate a capture instance. Before resetting after an error,
 the adapter must cancel/drain outstanding transfers so stale callbacks cannot
 enter a new operation. The core does not schedule timeouts or implement USB
 cancellation itself; the adapter must report those events and enforce deadlines.
+
+The [libfprint USB adapter](libfprint-usb-adapter.md) implements the transport backend
+with FpiUsbTransfer and per-transfer GCancellable objects. It is tested offline
+against real headers; device registration and open/close remain separate work.
