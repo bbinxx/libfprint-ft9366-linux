@@ -9,7 +9,8 @@ Application / PAM -> fprintd -> libfprint -> FT9366 adapter
 ```
 
 Original offline components are `driver/ft9366-frame.c` and
-`driver/ft9366-capture.c`.
+`driver/ft9366-capture.c`, plus a backend-neutral
+[asynchronous transport core](transport.md) in `driver/ft9366-transport.c`.
 It validates a complete frame before decoding big-endian samples; it neither
 transfers USB data nor performs image enhancement or matching.
 
