@@ -1,7 +1,8 @@
 # Reviewed reference-based capture experiment
 
-Status: prepared and tested offline, NOT executed on hardware. Track A-style
-reference baseline, separate from the original Track B libfprint driver. This
+Status: owner reports successful hardware execution on November 14, 2026, after
+explicit approval. This is a Track A-style reference baseline, separate from the
+original Track B libfprint driver. This
 experiment uses upstream replay data without claiming those sequences as original.
 
 ## Provenance and build
@@ -25,7 +26,7 @@ Default executable behavior and --plan perform no USB operation. --simulate alwa
 builds a distinct .sim executable that prints SIMULATED USB BACKEND; it cannot
 replace the hardware executable. The simulation flag never exists in production.
 
-## Proposed hardware scope — approval required
+## Approved hardware scope
 
 1. Keep finger OFF sensor; owner presses Enter before any USB operation.
 2. Find exactly one 2808:a658, validate the observed interface layout, open handle
@@ -67,4 +68,33 @@ lengths/delays and offset errors. The full executable has simulated success,
 short-response, disconnect and no-finger paths with cleanup assertions. Test
 symbols are linked only into the separately named .sim executable. The real
 executable links the installed libusb/GLib. No Windows driver is executed.
-Hardware output remains pending.
+## First owner-reported hardware result
+
+The owner explicitly approved the reset/OUT scope, then ran:
+
+```sh
+sudo /tmp/ft9366-capture-reference --capture
+```
+
+Executable SHA256 recorded before this run:
+1046f4000a9922cf89a787b03a3c9cbf5ab228ee679b148a2bfdf9593f59f035.
+This is owner-supplied terminal evidence, not an agent-executed privileged run.
+
+```text
+Reference initialization transfers completed; four calibration-sized frames discarded.
+PLACE AND HOLD your finger flat on the sensor now (up to 10 seconds).
+Reference finger-present flag observed; requesting frames.
+First touch frame received and discarded, following reference settling behavior.
+Finger-triggered 10240-byte sensor frame received in memory and cleared.
+This confirms frame transfer only; fingerprint ridge quality, enrollment and matching are unverified.
+USB resources closed; no biometric payload saved.
+```
+
+Observed scope: the reference initialization, finger-status polling, first-frame
+discard and second frame-sized read all completed without a reported transfer
+failure, followed by resource cleanup. Numeric process exit status was not supplied.
+No image was retained or inspected, so visual ridge quality, orientation, contrast,
+and the claimed 16-bit encoding are not independently verified by this transcript.
+It is one successful acquisition, not a repeatability or authentication test.
+The original libfprint driver and fprintd path remain unvalidated on hardware.
+

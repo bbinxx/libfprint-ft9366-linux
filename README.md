@@ -6,6 +6,11 @@ asynchronous USB transport core, libfprint USB adapter, and interface lifecycle
 helper tested offline. USB initialization, libfprint integration,
 enrollment and verification are not implemented or validated here.
 
+Hardware milestone: the owner reports one successful finger-triggered 10240-byte
+frame acquisition using the separately approved reference-sequence experiment.
+No image was saved or inspected; this does not validate the original driver or
+authentication. See the [hardware result](docs/reference-capture-experiment.md).
+
 Track A means independently maintained packaging of pinned upstream driver code.
 Track B means an original implementation informed by documented evidence. These
 tracks must remain clearly attributed. No upstream Git history is imported.

@@ -28,9 +28,9 @@ scope separate; never mark a hardware milestone done from an offline test.
 | feature/libfprint-integration | Build and register original adapter inside pinned libfprint |
 | feature/enrollment-matching | Template format, enrollment flow and evaluated host matcher |
 | feature/arch-packaging | Reproducible build, ABI/lint checks and verified rollback |
-| feature/hardware-connection | Owner reports successful privileged open/claim/release/close; sensor commands not yet tested |
+| feature/hardware-connection | Owner reports successful privileged open/claim/release/close |
 | feature/hardware-read | Owner reports 0-byte timeout; release/close successful |
-| feature/reference-fingerprint-capture | Reference-based capture tool prepared; reset/OUT scope awaits approval |
+| feature/reference-fingerprint-capture | Owner reports approved initialization, touch flag and one successful frame capture; quality/repeatability pending |
 | feature/hardware-validation | Approved discovery, enrollment, verification and failure tests |
 | chore/project-license | Owner-approved license and complete provenance audit before publication |
 | feature/pam-integration | Only after reliable hardware verification and explicit approval |
