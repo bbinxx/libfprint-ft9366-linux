@@ -36,7 +36,9 @@ Keep reference checkouts and build artifacts outside the project history.
 ## Workflow and validation
 
 Use dev as permanent integration branch; short-lived feature/, fix/, docs/, chore/
-branches after the initial root commit. Follow docs/git-workflow.md. Do not reset,
+branches after the initial root commit. Each roadmap feature gets its own branch
+from current dev. Review and test before merging with --no-ff; do not use
+fast-forward merges for new features. Follow docs/git-workflow.md. Do not reset,
 clean, force-push, or remove user changes. Do not spawn agents unless requested.
 Run make test for decoder changes and record exact checks and limitations.
 Inspect staged diff before committing; never stage indiscriminately.

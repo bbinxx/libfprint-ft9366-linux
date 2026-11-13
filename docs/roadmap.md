@@ -12,3 +12,25 @@
 9. Publication: license selection/compliance and explicit GitHub/AUR approval.
 
 Track A and Track B proceed separately; no milestone substitutes for hardware tests.
+
+## Feature branch sequence
+
+Create each branch from current dev when its prerequisites are ready. Keep its
+scope separate; never mark a hardware milestone done from an offline test.
+
+| Branch | Deliverable / completion gate |
+| --- | --- |
+| feature/usb-initialization-research | Source sequence audit; exact response semantics and local traces remain open |
+| feature/usb-transport | Bounded asynchronous transfers, deadlines, cancel and stale-callback handling |
+| feature/device-lifecycle | Open/claim/close cleanup; reviewed initialization and recovery |
+| feature/image-acquisition | Connect capture state and decoder to verified frame responses |
+| feature/libfprint-integration | Build and register original adapter inside pinned libfprint |
+| feature/enrollment-matching | Template format, enrollment flow and evaluated host matcher |
+| feature/arch-packaging | Reproducible build, ABI/lint checks and verified rollback |
+| feature/hardware-validation | Approved discovery, enrollment, verification and failure tests |
+| chore/project-license | Owner-approved license and complete provenance audit before publication |
+| feature/pam-integration | Only after reliable hardware verification and explicit approval |
+
+Merge each reviewed increment into dev with --no-ff. Research can land with clearly
+recorded unresolved questions; implementing hardware writes must wait for their
+evidence and approval gates. Do not create empty branches for future tasks.
