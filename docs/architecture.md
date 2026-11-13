@@ -40,3 +40,8 @@ cancellation itself; the adapter must report those events and enforce deadlines.
 The [libfprint USB adapter](libfprint-usb-adapter.md) implements the transport backend
 with FpiUsbTransfer and per-transfer GCancellable objects. It is tested offline
 against real headers; device registration and open/close remain separate work.
+
+The [device lifecycle helper](device-lifecycle.md) owns interface 0 and blocks
+new transfers while close drains cancellation. libfprint retains USB handle
+ownership. CLAIMED does not mean initialized; driver registration and sensor
+initialization are not implemented yet.

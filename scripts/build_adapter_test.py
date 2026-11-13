@@ -36,15 +36,21 @@ def main():
         ], stdout=header, check=True)
     cflags = shlex.split(output('pkg-config', '--cflags', 'gusb', 'gio-2.0', 'libfprint-2'))
     libs = shlex.split(output('pkg-config', '--libs', 'gusb', 'gio-2.0'))
-    executable = build / 'test-fprint-usb'
-    command = shlex.split(args.cc) + shlex.split(args.cflags) + [
+    common = shlex.split(args.cc) + shlex.split(args.cflags) + [
         '-I' + str(root / 'driver'), '-I' + str(build), '-I' + str(source / 'libfprint')
-    ] + cflags + [
-        str(root / 'tests/test-fprint-usb.c'), str(root / 'driver/ft9366-fprint-usb.c'),
-        str(root / 'driver/ft9366-transport.c')
-    ] + libs + ['-o', str(executable)]
-    subprocess.run(command, check=True)
-    subprocess.run([str(executable)], check=True)
+    ] + cflags
+    cases = {
+        'test-fprint-usb': ['tests/test-fprint-usb.c', 'driver/ft9366-fprint-usb.c',
+                            'driver/ft9366-transport.c'],
+        'test-device': ['tests/test-device.c', 'driver/ft9366-device.c',
+                        'driver/ft9366-fprint-usb.c', 'driver/ft9366-transport.c'],
+    }
+    for name, paths in cases.items():
+        executable = build / name
+        command = common + [str(root / path) for path in paths] + libs + ['-o', str(executable)]
+        subprocess.run(command, check=True)
+        subprocess.run([str(executable)], check=True)
+
 
 
 if __name__ == '__main__':
