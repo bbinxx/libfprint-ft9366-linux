@@ -33,7 +33,19 @@ if the interface is busy, stop and investigate rather than detach another owner.
 - Outside-sandbox run found 2808:a658 at bus 003 device 007 and confirmed endpoints.
 - libusb_open returned LIBUSB_ERROR_ACCESS for the unprivileged user.
 - Privileged retry using sudo -n stopped because sudo requires a password.
-- No successful handle open or interface claim has been observed yet.
+- The owner subsequently ran sudo /tmp/ft9366-connect --connect and supplied the
+  output below. It reports successful open, claim, release and close. This is
+  owner-reported hardware evidence; the agent did not execute the privileged run.
+  The numeric exit status was not included in the supplied transcript.
+
+```text
+Found 2808:a658 on bus 003 device 007
+Interface 0: bulk OUT 0x01 / IN 0x82, 512-byte packets verified
+USB handle opened
+Interface 0 claimed successfully
+Interface 0 released successfully
+USB handle closed
+```
 
 Success for this milestone is explicit open, claim, release and close output with
 exit status 0. It establishes USB access only, not sensor initialization, capture,
