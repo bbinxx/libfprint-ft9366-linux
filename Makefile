@@ -19,3 +19,8 @@ adapter-test:
 ifneq ($(strip $(LIBFPRINT_SOURCE)),)
 test: adapter-test
 endif
+
+.PHONY: connection-probe
+connection-probe:
+	mkdir -p "$(BUILD_DIR)"
+	$(CC) $(CFLAGS) $$(pkg-config --cflags libusb-1.0) tools/ft9366-connect.c $$(pkg-config --libs libusb-1.0) -o "$(BUILD_DIR)/ft9366-connect"
