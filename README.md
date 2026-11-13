@@ -15,6 +15,7 @@ installation occurs. Requirements: a C11 compiler and make.
 
 ## Guides
 
+- [First hardware connection](docs/hardware-connection.md)
 - [Phase 1 evidence](docs/phase-1-report.md)
 - [Architecture](docs/architecture.md), [hardware](docs/hardware.md), [protocol](docs/usb-protocol.md)
 - [Transport contract](docs/transport.md), [libfprint adapter](docs/libfprint-usb-adapter.md), [device lifecycle](docs/device-lifecycle.md)
