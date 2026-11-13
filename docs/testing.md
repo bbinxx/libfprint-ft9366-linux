@@ -24,3 +24,6 @@ synthetic frame, 512-byte fragments, partial-frame rejection, repeated starts,
 oversized lengths including SIZE_MAX, cancellation/timeout/disconnect, late feeds,
 ready-frame cancellation, and clearing internal buffers. Hardware transfer
 boundaries are not inferred from these synthetic fragment patterns.
+
+`make test` also runs Python unittest cases for the offline reference-container
+audit: record counts, delay parsing, invalid operations and truncated payloads.

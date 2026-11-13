@@ -24,3 +24,6 @@ For each future command record exact bytes, endpoint, transfer length, response
 invariants, source/trace identifier, observation date and confidence. Review writes
 before execution; keep private captures outside Git. Unknown: chip IDs, firmware,
 authentication, initialization essentials, recovery and power transitions.
+
+See [initialization source audit](initialization-research.md) for measured static
+record counts and unresolved initialization gates.

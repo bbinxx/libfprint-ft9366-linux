@@ -2,6 +2,8 @@
 
 This repository has independent history. Never fork GitHub or import reference history.
 The initial root commit bootstraps dev; subsequent work uses short-lived branches.
+Each feature in docs/roadmap.md gets its own branch from current dev. Use --no-ff
+for new feature merges so their boundaries remain visible.
 
 ```sh
 git status --short --branch

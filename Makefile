@@ -8,3 +8,4 @@ test:
 	"$(BUILD_DIR)/test-frame"
 	$(CC) $(CFLAGS) -Idriver tests/test-capture.c driver/ft9366-capture.c driver/ft9366-frame.c -o "$(BUILD_DIR)/test-capture"
 	"$(BUILD_DIR)/test-capture"
+	PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -p 'test_*.py'
