@@ -14,5 +14,6 @@ set to August 23, 2026 at the owner's request; this is not the research date.
 - Add interface lifecycle management with cancel/drain close and simulated ownership/error tests.
 - Record owner-reported successful physical USB open, interface claim/release and close.
 - Add explicit single-read hardware probe with a one-second timeout and no payload logging.
-- Prepare isolated reference-sequence capture experiment and exact operation manifest; hardware execution pending approval.
+- Prepare isolated reference-sequence capture experiment and exact operation manifest.
+- Record owner-reported approved reference initialization, touch detection and first 10240-byte frame acquisition; no image retained.
 - No functional USB driver, enrollment, verification or installable package yet.
