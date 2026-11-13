@@ -97,4 +97,3 @@ No image was retained or inspected, so visual ridge quality, orientation, contra
 and the claimed 16-bit encoding are not independently verified by this transcript.
 It is one successful acquisition, not a repeatability or authentication test.
 The original libfprint driver and fprintd path remain unvalidated on hardware.
-
