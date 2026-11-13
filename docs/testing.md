@@ -27,3 +27,9 @@ boundaries are not inferred from these synthetic fragment patterns.
 
 `make test` also runs Python unittest cases for the offline reference-container
 audit: record counts, delay parsing, invalid operations and truncated payloads.
+
+Transport tests use a simulated backend to test endpoint selection, timeout
+forwarding, write ownership, read bounds, short/oversized completions, submission
+failure, cancellation races, stale callbacks and token exhaustion. The full suite
+is three C test executables plus four Python unittest cases. No real USB transport,
+libfprint adapter or hardware timeout behavior has yet been tested.

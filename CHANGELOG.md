@@ -9,4 +9,5 @@ set to August 23, 2026 at the owner's request; this is not the research date.
 - Add original offline frame decoding with synthetic bounds/byte-order tests.
 - Add bounded fragmented capture assembly and cancellation/error states; no USB I/O.
 - Document development, safety gates, attribution, branching and versioning.
+- Add backend-neutral asynchronous USB transfer core with bounds and cancellation tests.
 - No functional USB driver, enrollment, verification or installable package yet.
