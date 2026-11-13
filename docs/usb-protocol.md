@@ -1,6 +1,7 @@
 # USB protocol evidence
 
-No local USB capture or experimental command has been performed.
+The owner reports a real IN-only read timed out with 0 bytes. No sensor OUT
+command or captured frame has yet been observed locally.
 Reference revision: 5420cd9b7124e5a70deaae4bffedd969ae4ef91c in
 [ilyamiro/ft9366-fingerprint](https://github.com/ilyamiro/ft9366-fingerprint).
 
