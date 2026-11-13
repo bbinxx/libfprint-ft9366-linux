@@ -23,7 +23,7 @@ scope separate; never mark a hardware milestone done from an offline test.
 | feature/usb-initialization-research | Source sequence audit; exact response semantics and local traces remain open |
 | feature/usb-transport | Offline transfer core tested; hardware validation pending |
 | feature/libfprint-usb-adapter | Concrete FpiUsbTransfer adapter compiled against real headers and simulated; full library build pending |
-| feature/device-lifecycle | Open/claim/close cleanup; reviewed initialization and recovery |
+| feature/device-lifecycle | Interface claim/close/drain and failure cleanup tested offline; sensor initialization remains pending |
 | feature/image-acquisition | Connect capture state and decoder to verified frame responses |
 | feature/libfprint-integration | Build and register original adapter inside pinned libfprint |
 | feature/enrollment-matching | Template format, enrollment flow and evaluated host matcher |

@@ -38,3 +38,8 @@ Run `make test LIBFPRINT_SOURCE=/tmp/ft9366-libfprint-source` to include the fou
 C executable for the libfprint adapter. See [adapter verification](libfprint-usb-adapter.md)
 for pinned-source checks and the distinction between header/simulation tests and
 a full libfprint build. Plain `make test` continues to run the portable core suite.
+
+The same LIBFPRINT_SOURCE command now also runs test-device, making five C
+executables plus four Python cases. Lifecycle coverage includes interface
+ownership, claim/release errors, release retry, close/drain races, callback-time
+destruction and reference cleanup. No real FpDevice, claim or transfer is exercised.

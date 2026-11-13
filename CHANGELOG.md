@@ -11,4 +11,5 @@ set to August 23, 2026 at the owner's request; this is not the research date.
 - Document development, safety gates, attribution, branching and versioning.
 - Add backend-neutral asynchronous USB transfer core with bounds and cancellation tests.
 - Add FpiUsbTransfer adapter with per-transfer cancellation and simulated tests against pinned headers.
+- Add interface lifecycle management with cancel/drain close and simulated ownership/error tests.
 - No functional USB driver, enrollment, verification or installable package yet.
