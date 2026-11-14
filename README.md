@@ -5,7 +5,10 @@ Track B protocol/decoder research code and a separately attributed Track A Arch
 package built from pinned upstream FT9366 sources. Track A is an installable
 compatibility baseline; it is not an independently implemented driver. The
 package builds and passes the upstream test suite, and its library discovers
-this device. Hardware enrollment and verification are still unverified.
+this device. The owner completed enrollment and one successful verification
+with the installed Track A package on November 14, 2026. Repeated verification,
+wrong-finger rejection, and suspend/resume reliability remain unverified.
+See the [hardware validation report](docs/hardware-validation.md).
 
 Hardware milestone: the owner reports one successful finger-triggered 10240-byte
 frame acquisition using the separately approved reference-sequence experiment.

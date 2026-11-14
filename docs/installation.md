@@ -1,6 +1,8 @@
 # Installation and rollback
 
-**The package is built but not installed.** It replaces the system `libfprint`
+**The owner installed and tested this Track A package on November 14, 2026.**
+See [hardware validation](hardware-validation.md) for the observed result and
+remaining limits. For a new installation, it replaces the system `libfprint`
 package. Installation requires a separate explicit approval after reviewing the
 Pacman transaction. It also installs a narrowly matched udev rule setting
 `power/control=on` for `2808:a658`, so autosuspend remains disabled for this
@@ -21,7 +23,7 @@ gpgv --keyring /etc/pacman.d/gnupg/pubring.gpg \
 sha256sum artifacts/arch/*.pkg.tar.zst artifacts/rollback/*
 ```
 
-The verified rollback archive matches installed `libfprint 1.94.100-2`; its
+The verified rollback archive matches the original `libfprint 1.94.100-2`; its
 dependencies were present at build time. Confirm that remains true on the day
 of installation. The experimental package depends on the same runtime library
 packages, provides the `libfprint-2.so=2-64` dependency required by installed

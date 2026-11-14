@@ -9,7 +9,9 @@ package built from pinned sources, not the repository's original Track B code.
   `4754ff229c0e4cb566f33e99e962d702bfc52970`.
 - libfprint source commit: `80a4b5ec612892c5c056c48dddaa561452cf37ec`.
 - FT9366 reference commit: `5420cd9b7124e5a70deaae4bffedd969ae4ef91c`.
-- Installed `libfprint 1.94.100-2` and `fprintd 1.94.5-2` were not changed.
+- During the build, installed `libfprint 1.94.100-2` and `fprintd 1.94.5-2`
+  were unchanged. The owner subsequently installed the experimental package;
+  see [hardware validation](hardware-validation.md).
 - Meson 1.12.1, GCC 16.2.1, gobject-introspection 1.86.0,
   gtk-doc 1.37.0, umockdev 0.19.9.
 - `SOURCE_DATE_EPOCH=1792590607`; native host build, not a clean chroot.
@@ -49,11 +51,14 @@ Recheck the signature and current dependencies before use.
 
 ## Known limits
 
-- The experimental package has not been installed.
-- No package transaction has replaced the system library.
+- The owner subsequently installed the experimental package through Pacman,
+  replacing official libfprint. fprintd remains at 1.94.5-2.
 - The built library discovery did not open the sensor.
-- Enrollment, verification, repeatability, template persistence, and PAM are
-  untested. PAM has not been modified.
+- Owner-supplied terminal output confirms enrollment completion and one
+  successful verification, including discovery of the stored right-index
+  template by a subsequent client invocation. Repeated verification,
+  wrong-finger rejection, restart persistence, and PAM integration are untested.
+  PAM has not been modified.
 - A capture from the separately approved reference experiment proves only that
   a 10240-byte frame was transferred to memory and cleared. It was not saved or
   inspected.
@@ -66,5 +71,5 @@ Recheck the signature and current dependencies before use.
 - The udev rule persistently disables autosuspend for this one USB ID while the
   package is installed. No permission grant is added.
 
-The next gate is the owner's review and approval of the exact Pacman transaction
-before installing the package, followed by actual enrollment and verification.
+Next validation: repeated same-finger matches, wrong-finger rejection, and
+suspend/resume behavior. See [hardware validation](hardware-validation.md).
