@@ -58,7 +58,7 @@ First check the USB presence and query the library:
 
 ```sh
 lsusb -d 2808:a658
-fprint-list-supported-devices
+fprintd-list "$USER"
 ```
 
 Then check fprintd and attempt enrollment in the user's terminal:
