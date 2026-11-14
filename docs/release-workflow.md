@@ -54,3 +54,16 @@ tests. YAML parsing and bash -n checks passed for every run block. Docker
 daemon access was unavailable locally, so the distro containers and GitHub
 release upload have not been executed here. Their first Actions run remains
 required evidence.
+
+## udev metadata dependency
+
+The first Ubuntu Actions run reached Meson but failed because `udev.pc` was
+missing. libgudev development headers do not satisfy this metadata lookup.
+The source-build matrix now installs Ubuntu 24.04's `systemd-dev`, Debian 12's
+`udev`, and Fedora's `pkgconfig(udev)` provider, then checks the pkg-config
+version and udev directory before configuring Meson. YAML/shell syntax checks
+pass; an Actions rerun is required to verify the container builds.
+
+Package file evidence:
+https://packages.ubuntu.com/en/noble-updates/all/systemd-dev/filelist
+and https://packages.debian.org/bookworm/i386/udev/filelist.
