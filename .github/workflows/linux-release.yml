@@ -1,0 +1,106 @@
+name: Linux builds and draft release
+on:
+  pull_request:
+  push:
+    branches: [dev, main]
+    tags: ['v*']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: linux-build-${{ github.ref }}
+  cancel-in-progress: ${{ !startsWith(github.ref, 'refs/tags/') }}
+jobs:
+  source-build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - distro: ubuntu-24.04
+            image: ubuntu:24.04
+            family: deb
+          - distro: debian-12
+            image: debian:12
+            family: deb
+          - distro: fedora-44
+            image: fedora:44
+            family: rpm
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Compile pinned FT9366 sources inside distribution container
+        env:
+          IMAGE: ${{ matrix.image }}
+          FAMILY: ${{ matrix.family }}
+        run: |
+          docker run --rm -e FAMILY -v "$PWD:/workspace:ro" "$IMAGE" bash -euc '
+            if [ "$FAMILY" = deb ]; then
+              apt-get update
+              DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential meson ninja-build pkg-config python3 curl ca-certificates patch libglib2.0-dev libgusb-dev libgudev-1.0-dev libpixman-1-dev libssl-dev libgirepository1.0-dev gobject-introspection gir1.2-gusb-1.0 gtk-doc-tools python3-gi python3-cairo umockdev libcairo2-dev
+            else
+              dnf install -y gcc gcc-c++ meson ninja-build pkgconf-pkg-config python3 curl ca-certificates patch glib2-devel libgusb-devel libgudev-devel pixman-devel openssl-devel gobject-introspection-devel gtk-doc python3-gobject python3-cairo umockdev cairo-devel
+            fi
+            python3 /workspace/scripts/prepare_release_sources.py --work-dir /tmp/ft9366-source
+            source_dir=$(find /tmp/ft9366-source -maxdepth 1 -type d -name "libfprint-*")
+            meson setup /tmp/build "$source_dir" -Ddrivers=ft9366 -Ddoc=false -Dintrospection=true -Dinstalled-tests=false
+            meson compile -C /tmp/build
+            meson test -C /tmp/build --print-errorlogs --num-processes 1
+          '
+  arch-package:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Build and lint native Arch package without installing it
+        run: |
+          mkdir -p dist
+          docker run --rm -v "$PWD:/workspace:ro" -v "$PWD/dist:/dist" archlinux:base-devel bash -euc '
+            pacman -Syu --noconfirm --needed meson gobject-introspection gtk-doc umockdev glib2-devel python-cairo python-gobject systemd cairo libgudev libgusb openssl pixman namcap git
+            useradd -m builder
+            cp -r /workspace/packaging/arch /home/builder/package
+            chown -R builder:builder /home/builder/package
+            su builder -c "cd /home/builder/package && SOURCE_DATE_EPOCH=1792590607 makepkg --log"
+            namcap /home/builder/package/PKGBUILD /home/builder/package/*.pkg.tar.zst
+            cp /home/builder/package/*.pkg.tar.zst /dist/
+          '
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: arch-x86_64
+          path: dist/*.pkg.tar.zst
+          if-no-files-found: error
+  draft-release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [source-build, arch-package]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: arch-x86_64
+          path: dist
+      - name: Bundle corresponding sources and release metadata
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          python3 scripts/prepare_release_sources.py --work-dir /tmp/release-source
+          tar -czf "dist/libfprint-ft9366-linux-${RELEASE_TAG}-sources.tar.gz" -C /tmp/release-source .
+          git archive --format=tar.gz --output="dist/libfprint-ft9366-linux-${RELEASE_TAG}-project.tar.gz" HEAD
+          cp docs/releases/automation-notes.md dist/RELEASE-NOTES.md
+          cd dist
+          sha256sum *.pkg.tar.zst *.tar.gz > SHA256SUMS
+      - name: Create or update draft prerelease
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            test "$(gh release view "$RELEASE_TAG" --json isDraft --jq .isDraft)" = true
+          else
+            gh release create "$RELEASE_TAG" --verify-tag --draft --prerelease --title "$RELEASE_TAG — Linux source and Arch package" --notes-file dist/RELEASE-NOTES.md
+          fi
+          gh release upload "$RELEASE_TAG" dist/* --clobber

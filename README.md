@@ -38,6 +38,15 @@ Project branding is `libfprint-ft9366-linux`. The tested Arch binary retains
 `libfprint-ft9366-arch` as its distro-specific package name. Existing local
 checkout paths can remain unchanged. See the [Arch release notes](docs/releases/v0.1.0-arch.1.md).
 
+## Getting started
+
+Read the [user guide](docs/user-guide.md) for cloning, installing the reviewed
+Arch package, enrollment, verification, troubleshooting and rollback.
+[Release automation](docs/release-workflow.md) builds an Arch package and checks
+source builds on Ubuntu, Debian and Fedora. Tagged versions create draft
+prereleases with corresponding sources and checksums after successful CI.
+Other distributions still require native packaging and hardware validation.
+
 ## Guides
 
 - [First hardware connection](docs/hardware-connection.md), [reference capture proposal](docs/reference-capture-experiment.md)
