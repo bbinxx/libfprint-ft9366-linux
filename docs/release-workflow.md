@@ -67,3 +67,15 @@ pass; an Actions rerun is required to verify the container builds.
 Package file evidence:
 https://packages.ubuntu.com/en/noble-updates/all/systemd-dev/filelist
 and https://packages.debian.org/bookworm/i386/udev/filelist.
+
+## Debian Python archive compatibility
+
+The Debian 12 run passed the udev metadata check but its Python 3.11.2 rejected
+the extractall filter keyword. Source preparation now validates all archive
+entries and copies regular files/directories with older Python APIs, rejecting
+absolute paths, parent traversal, links and special files. Existing files are
+not overwritten. Both pinned archives contain only regular files/directories.
+Four synthetic archive tests and extraction/patching of both real pinned
+archives passed locally; the synthetic tests now run in each source container.
+The complete Debian build still requires the next Actions run. Checkout was
+also updated to a pinned official v5 revision using Node 24.
