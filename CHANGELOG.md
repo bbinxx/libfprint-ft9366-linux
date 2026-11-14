@@ -16,4 +16,6 @@ set to August 23, 2026 at the owner's request; this is not the research date.
 - Add explicit single-read hardware probe with a one-second timeout and no payload logging.
 - Prepare isolated reference-sequence capture experiment and exact operation manifest.
 - Record owner-reported approved reference initialization, touch detection and first 10240-byte frame acquisition; no image retained.
-- No functional USB driver, enrollment, verification or installable package yet.
+- Add pinned, attributed Track A Arch packaging; 130 upstream tests pass.
+- Record owner-approved Pacman installation, completed enrollment and one successful verification.
+- Original Track B integration and repeated hardware reliability checks remain incomplete.
