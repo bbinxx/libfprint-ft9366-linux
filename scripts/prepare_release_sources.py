@@ -6,7 +6,31 @@ import shutil
 import subprocess
 import tarfile
 import urllib.request
-from pathlib import Path
+from pathlib import Path, PurePosixPath
+
+
+def extract_sources(archive, destination):
+    """Extract only regular files/directories using APIs available on Python 3.11."""
+    root = destination.resolve()
+    members = archive.getmembers()
+    for member in members:
+        name = PurePosixPath(member.name)
+        if name.is_absolute() or '..' in name.parts or not (member.isfile() or member.isdir()):
+            raise ValueError('Unsafe source archive entry: ' + member.name)
+        target = root.joinpath(*name.parts)
+        if not target.resolve().is_relative_to(root):
+            raise ValueError('Source path escapes destination: ' + member.name)
+        if any(path.is_symlink() for path in (target, *target.parents)):
+            raise ValueError('Source path traverses a symlink: ' + member.name)
+    for member in members:
+        target = root.joinpath(*PurePosixPath(member.name).parts)
+        if member.isdir():
+            target.mkdir(parents=True, exist_ok=True)
+        else:
+            target.parent.mkdir(parents=True, exist_ok=True)
+            with archive.extractfile(member) as source, target.open('xb') as output:
+                shutil.copyfileobj(source, output)
+            target.chmod(member.mode & 0o777)
 
 
 def main():
@@ -38,7 +62,7 @@ def main():
         if hashlib.blake2b(target.read_bytes()).hexdigest() != expected:
             raise RuntimeError('Source checksum mismatch: ' + name)
         with tarfile.open(target) as archive:
-            archive.extractall(work, filter='data')
+            extract_sources(archive, work)
     local = ['ft9366-integration.patch', 'egis-replay-cancellation.patch',
              '70-libfprint-ft9366.rules', 'UPSTREAM-NOTICE']
     for name, expected in zip(local, checks[2:], strict=True):
