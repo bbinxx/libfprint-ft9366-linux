@@ -25,3 +25,6 @@ core.*
 # Python cache
 __pycache__/
 *.pyc
+
+# Local package artifacts and verified rollback copies
+/artifacts/

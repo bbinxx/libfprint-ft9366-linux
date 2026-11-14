@@ -1,0 +1,70 @@
+# Maintainer: Bibin
+# Independent FT9366 Arch integration, based on Arch's libfprint 1.94.100-2 recipe.
+# Upstream Arch maintainer: Jan Alexander Steffens (heftig).
+# Upstream contributors: Tom Gundersen; Thomas Baechler; Arch Linux Contributors.
+# See UPSTREAM-NOTICE for revisions, attribution and development-track boundaries.
+pkgname=libfprint-ft9366-arch
+pkgver=1.94.100.ft9366.20261021
+pkgrel=1
+pkgdesc='libfprint with pinned reference FT9366 support for USB 2808:a658'
+arch=(x86_64)
+url='https://github.com/ilyamiro/ft9366-fingerprint'
+license=(LGPL-2.1-or-later)
+_libfprint_version=1.94.100
+_libfprint_commit=80a4b5ec612892c5c056c48dddaa561452cf37ec
+_ft9366_commit=5420cd9b7124e5a70deaae4bffedd969ae4ef91c
+depends=(libgcc glib2 glibc libgudev libgusb openssl pixman)
+makedepends=(glib2-devel gobject-introspection gtk-doc meson python-cairo python-gobject systemd)
+checkdepends=(cairo umockdev)
+provides=("libfprint=${_libfprint_version}" libfprint-2.so)
+conflicts=(libfprint)
+source=(
+  "libfprint-${_libfprint_commit}.tar.gz::https://gitlab.freedesktop.org/libfprint/libfprint/-/archive/${_libfprint_commit}/libfprint-${_libfprint_commit}.tar.gz"
+  "ft9366-fingerprint-${_ft9366_commit}.tar.gz::https://codeload.github.com/ilyamiro/ft9366-fingerprint/tar.gz/${_ft9366_commit}"
+  ft9366-integration.patch
+  egis-replay-cancellation.patch
+  70-libfprint-ft9366.rules
+  UPSTREAM-NOTICE
+)
+b2sums=(
+  '13075bbc3972b9c2784fec48c7d299b9c9021f8603c59342dd94d4bff9e76b1054fb8eecf45252e73d95120e67e7069428baaeff06d2845369019435c8c8decd'
+  'f7233f3626a9a6568efbc1811ff6e532f673758842d528b60a1c521e11d74bf31b2f8b7c3b5ff60565b607fd8e5a546c4e91af2e3fef5dcb3247b492a74a1538'
+  'c10dbc3cfc58f627c56a16ef028278cd6087be3f620ceaf02b0a3bd3010159b158e02a94a067eaa7f20c1824c116d28d5056e781d87c11e52f450c6194f510da'
+  'b2231136946591074945b77dd9d60767edb29f45151552f6442d377257193060aa7a6ab16b51cbf37a35049ec9fa37f49785a7765bc515816a89912830876dc4'
+  'f3f49865cbd8b6723858fb0157a53642c2b9a87455848a20cc9f63786f84291286aff3e480cd79d58c56c3037daa40e369248fa3f2de41062eb9a3e286e7bdc6'
+  '271b389921ae11f54b99a520cef6d9ec0dcf761a84c80e468f7b4c392a3650e7d8e8b42cac4926c9ed8ee8e3e66808cec903a7d1ed0ef71b97a82a8ce094a1e4'
+)
+
+prepare() {
+  cd "libfprint-${_libfprint_commit}"
+  patch -Np1 -i "${srcdir}/ft9366-integration.patch"
+  # Synchronize an upstream test replay; no production Egis code is changed.
+  patch -Np1 -i "${srcdir}/egis-replay-cancellation.patch"
+  local file
+  for file in ft9366.c ft9366_match.c ft9366_match.h ft9366_pairs.h ft9366_script.h; do
+    cp "${srcdir}/ft9366-fingerprint-${_ft9366_commit}/driver/${file}" "libfprint/drivers/${file}"
+  done
+}
+
+build() {
+  arch-meson "libfprint-${_libfprint_commit}" build \
+    -Ddrivers=all -Dinstalled-tests=false
+  meson compile -C build
+}
+
+check() {
+  # The Egis cancellation replay is timing-sensitive when run alongside tests.
+  meson test -C build --print-errorlogs --num-processes 1
+}
+
+package() {
+  meson install -C build --destdir "${pkgdir}"
+  install -Dm644 70-libfprint-ft9366.rules \
+    "${pkgdir}/usr/lib/udev/rules.d/70-libfprint-ft9366.rules"
+  install -Dm644 "libfprint-${_libfprint_commit}/COPYING" \
+    "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE.libfprint"
+  install -Dm644 "ft9366-fingerprint-${_ft9366_commit}/LICENSE" \
+    "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE.ft9366"
+  install -Dm644 UPSTREAM-NOTICE \
+    "${pkgdir}/usr/share/licenses/${pkgname}/UPSTREAM-NOTICE"
+}
