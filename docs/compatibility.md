@@ -1,4 +1,8 @@
-# Compatibility
+# Linux distribution compatibility
+
+Project name: `libfprint-ft9366-linux`. Only Arch Linux has actual build and
+hardware evidence. Other distributions are unverified and require native
+packaging plus checks against their libfprint/fprintd versions.
 
 | Component | Evidence | Status |
 | --- | --- | --- |

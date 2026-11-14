@@ -14,3 +14,10 @@ driver code as original. Increment pkgrel for packaging-only rebuilds. This
 experimental package version is not a stable release and does not imply
 successful enrollment or verification. Record template format versions
 separately; no Track B template format exists yet.
+
+## Distribution releases
+
+The prepared first Arch prerelease is `v0.1.0-arch.1`. It packages the tested
+Track A binary `1.94.100.ft9366.20261021-1`; it does not establish support for
+other distributions or complete Track B. Publish a release only after the
+owner-selected project license and source attribution review are complete.
