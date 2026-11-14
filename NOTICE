@@ -1,4 +1,4 @@
-Independent FT9366 development project. No affiliation with FocalTech, Realtek,
+libfprint-ft9366-linux: independent FT9366 development project. No affiliation with FocalTech, Realtek,
 ASUS, libfprint maintainers or the reference author is claimed.
 
 Technical reference: https://github.com/ilyamiro/ft9366-fingerprint

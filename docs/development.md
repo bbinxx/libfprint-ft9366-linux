@@ -2,7 +2,7 @@
 
 Current build is an offline C module: `make test`. No Meson or libfprint build
 is needed for it. Sources live in driver/, synthetic tests in tests/.
-Build output defaults to /tmp/libfprint-ft9366-arch-build; override BUILD_DIR on a
+Build output defaults to /tmp/libfprint-ft9366-linux-build; override BUILD_DIR on a
 native Linux filesystem. Never store biometric material on this fuseblk workspace.
 
 For libfprint work first resolve missing tools from the Phase 1 inventory with
