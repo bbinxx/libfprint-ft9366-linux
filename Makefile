@@ -1,6 +1,6 @@
 CC = cc
 CFLAGS = -std=c11 -Wall -Wextra -Wpedantic -Werror -O2
-BUILD_DIR ?= /tmp/libfprint-ft9366-arch-build
+BUILD_DIR ?= /tmp/libfprint-ft9366-linux-build
 .PHONY: test
 test:
 	mkdir -p "$(BUILD_DIR)"

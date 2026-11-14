@@ -1,4 +1,6 @@
-# Independent FT9366 development for Arch Linux
+# libfprint-ft9366-linux
+
+Independent FT9366 fingerprint driver development for Linux.
 
 Experimental project targeting USB `2808:a658`. The repository contains original
 Track B protocol/decoder research code and a separately attributed Track A Arch
@@ -24,6 +26,17 @@ the repository root with `python3 scripts/build_arch_package.py`; it pins and
 checks upstream sources, runs the libfprint test suite, and saves the package in
 `artifacts/arch/`. The script never installs it. See [build and package status](docs/packaging.md)
 and [installation and rollback](docs/installation.md).
+
+## Distribution support
+
+The project targets Linux. Only Arch Linux has been tested so far: USB
+`2808:a658`, libfprint 1.94.100, and fprintd 1.94.5. Other distributions require
+their own packaging and compatibility validation. The Arch package cannot be
+installed directly on Debian, Ubuntu, Fedora, or other package formats.
+
+Project branding is `libfprint-ft9366-linux`. The tested Arch binary retains
+`libfprint-ft9366-arch` as its distro-specific package name. Existing local
+checkout paths can remain unchanged. See the [Arch release notes](docs/releases/v0.1.0-arch.1.md).
 
 ## Guides
 
