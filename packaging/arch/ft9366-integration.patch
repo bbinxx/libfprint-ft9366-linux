@@ -1,0 +1,47 @@
+--- a/meson.build
++++ b/meson.build
+@@ -142,6 +142,7 @@
+     'upekts': {},
+     'goodixmoc': {},
+     'nb1010': {},
++    'ft9366': {},
+     'fpcmoc': {},
+     'realtek': {},
+     'focaltech_moc': {},
+--- a/libfprint/meson.build
++++ b/libfprint/meson.build
+@@ -123,6 +123,7 @@
+     'elanmoc' : files('drivers/elanmoc/elanmoc.c'),
+     'elanspi' : files('drivers/elanspi.c'),
+     'nb1010' : files('drivers/nb1010.c'),
++    'ft9366' : files('drivers/ft9366.c'),
+     'virtual_image' : files('drivers/virtual-image.c'),
+     'virtual_device' : files('drivers/virtual-device.c'),
+     'virtual_device_storage' : files('drivers/virtual-device-storage.c'),
+--- a/data/autosuspend.hwdb
++++ b/data/autosuspend.hwdb
+@@ -544,7 +544,6 @@
+ usb:v2808p93A9*
+ usb:v2808pA553*
+ usb:v2808pA573*
+-usb:v2808pA658*
+ usb:v2808pC652*
+ usb:v298Dp2033*
+ usb:v2DF0p0003*
+--- a/libfprint/fprint-list-udev-hwdb.c
++++ b/libfprint/fprint-list-udev-hwdb.c
+@@ -193,7 +193,6 @@
+   { .vid = 0x2808, .pid = 0x93a9 },
+   { .vid = 0x2808, .pid = 0xa553 },
+   { .vid = 0x2808, .pid = 0xa573 },
+-  { .vid = 0x2808, .pid = 0xa658 },
+   { .vid = 0x2808, .pid = 0xc652 },
+   { .vid = 0x298d, .pid = 0x2033 },
+   { .vid = 0x2df0, .pid = 0x0003 },
+@@ -208,4 +207,6 @@
+ static const FpIdEntry denylist_id_table[] = {
++  /* FT9366 reference driver: omit this bridge from autosuspend hwdb. */
++  { .vid = 0x2808, .pid = 0xa658 },
+   { .vid = 0x0483, .pid = 0x2016 },
+   /* https://bugs.freedesktop.org/show_bug.cgi?id=66659 */
+   { .vid = 0x045e, .pid = 0x00bb },

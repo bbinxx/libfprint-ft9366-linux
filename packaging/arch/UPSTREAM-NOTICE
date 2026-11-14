@@ -1,0 +1,24 @@
+libfprint-ft9366-arch: independently maintained Arch integration (Track A).
+
+The packaged FT9366 implementation is from ilyamiro/ft9366-fingerprint:
+https://github.com/ilyamiro/ft9366-fingerprint
+Commit: 5420cd9b7124e5a70deaae4bffedd969ae4ef91c
+Git author: ilyamiro. Reference README and ft9366.c specify LGPL-2.1-or-later.
+This is upstream integration, not a claim of independently authored driver code.
+The five driver/matcher/script files retain their original contents and notices.
+
+libfprint: https://gitlab.freedesktop.org/libfprint/libfprint
+Commit: 80a4b5ec612892c5c056c48dddaa561452cf37ec (v1.94.100).
+License: LGPL-2.1-or-later. Original source copyright notices are preserved.
+
+Arch recipe reference:
+https://gitlab.archlinux.org/archlinux/packaging/packages/libfprint
+Commit: 4754ff229c0e4cb566f33e99e962d702bfc52970 (1.94.100-2).
+Maintainer: Jan Alexander Steffens (heftig).
+Contributors: Tom Gundersen; Thomas Baechler; Arch Linux Contributors.
+The upstream Arch recipe uses the 0BSD grant recorded in its LICENSE.
+
+Original Track B modules in this independent repository are not part of this
+baseline binary package. No vendor binaries or proprietary firmware are bundled.
+No authentication reliability claim is made. Enrollment and verification require
+separate real-device tests before any PAM integration.

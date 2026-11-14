@@ -1,0 +1,3 @@
+# Reference FT9366 integration workaround: keep only USB 2808:a658 powered.
+# No permission grants and no changes to other USB devices.
+ACTION=="add|change", SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTR{idVendor}=="2808", ATTR{idProduct}=="a658", TEST=="power/control", ATTR{power/control}="on"
