@@ -1,0 +1,12 @@
+--- a/tests/egis_etu905/custom.py
++++ b/tests/egis_etu905/custom.py
+@@ -137 +137,8 @@
+-cancellable.cancel()
++
++# Let ready USB/state-machine sources run before replaying cancellation.
++# NEEDED can be reported before the recorded wait-finger URB is submitted.
++def cancel_when_idle():
++    cancellable.cancel()
++    return GLib.SOURCE_REMOVE
++
++GLib.idle_add(cancel_when_idle)

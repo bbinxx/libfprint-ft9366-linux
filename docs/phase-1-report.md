@@ -208,6 +208,8 @@ Before replacing libfprint, verify the cached rollback package signature and cur
 dependencies, inspect the replacement transaction, and obtain installation approval.
 Keep PAM untouched until repeatable enrollment and verification are demonstrated.
 
-Phase 1 establishes a plausible source-compatible integration path, not a working
-driver. Build, package ABI validation, device discovery, enrollment and verification
-are all outstanding.
+Phase 1 established the initial evidence and recommendation above. Subsequent
+Track A build, package ABI, and discovery results are recorded separately in
+[`arch-build-report.md`](arch-build-report.md). The experimental package is still
+not installed; enrollment and verification remain outstanding. Track B remains
+separate and incomplete.
